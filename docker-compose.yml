@@ -1,0 +1,48 @@
+version: "3"
+
+services:
+  #PHP Service
+  app_service:
+    build: ./php/
+    container_name: app_service
+    volumes:
+      - ./src:/var/www
+    networks:
+      - service-network
+
+  #Nginx Service
+  nginx_service:
+    image: nginx:alpine
+    container_name: nginx_service
+    sdepends_on:
+      - app_service
+    ports:
+      - "8000:80"
+      - "8443:443"
+    volumes:
+      - ./src:/var/www
+      - ./nginx:/etc/nginx/conf.d
+    networks:
+      - service-network
+
+  #MySQL Service
+  mysql_service:
+    image: mysql:8
+    container_name: mysql_service
+    ports:
+      - "${MYSQL_PORT}:3306"
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DB_NAME}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PWD}
+      MYSQL_USER: ${MYSQL_NO_ROOT_USER}
+      MYSQL_PASSWORD: ${MYSQL_NO_ROOT_PWD}
+    volumes:
+      - ./mysql/dbdata:/var/lib/mysql/
+      - ./mysql/my_custom.cnf:/etc/mysql/my_custom.cnf
+    networks:
+      - service-network
+
+#Docker Networks
+networks:
+  service-network:
+    driver: bridge
