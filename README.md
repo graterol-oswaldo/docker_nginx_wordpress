@@ -34,7 +34,7 @@ Docker Compose relies on Docker Engine, so make sure you have Docker Engine inst
 7. Setup WordPress from `wp-config.php`. Under `src/wordpress` directory:
 
    1. Run `wp-config-sample.php wp-config.php`
-   2. From `.env` file vars, replace or fill the above section in `wp-config.php` file:
+   2. From the variables set in the `.env` file, replace or complete the section in the `wp-config.php` file with your corresponding values:
    <pre><code>
    // ** MySQL settings - You can get this info from your web host ** //
    /** The name of the database for WordPress */
