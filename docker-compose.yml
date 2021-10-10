@@ -9,12 +9,11 @@ services:
       - ./src:/var/www
     networks:
       - service-network
-
   #Nginx Service
   nginx_service:
     image: nginx:alpine
     container_name: nginx_service
-    sdepends_on:
+    depends_on:
       - app_service
     ports:
       - "8000:80"

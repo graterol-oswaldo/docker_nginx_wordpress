@@ -1,8 +1,5 @@
 FROM php:8-fpm
 
-# Set working directory
-WORKDIR /var/www
-
 # Install dependencies
 RUN apt-get update && apt-get install -y \
     build-essential \
@@ -18,15 +15,15 @@ RUN apt-get update && apt-get install -y \
     vim \
     unzip \
     git \
-    curl
+    curl \
+    wget
 
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install extensions
-RUN docker-php-ext-install pdo_mysql mbstring zip exif pcntl
+RUN docker-php-ext-install pdo_mysql mbstring zip exif pcntl gd mysqli
 RUN docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/
-RUN docker-php-ext-install gd
 
 # This image ships with the default php.ini-development and php.ini-production configuration files.
 # It is strongly recommended to use the production config for images used in production environments!
@@ -38,6 +35,9 @@ RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+# Set working directory
+WORKDIR /var/www
 
 # Add user for laravel application
 RUN groupadd -g 1000 web-user
