@@ -23,17 +23,16 @@ Docker Compose relies on Docker Engine, so make sure you have Docker Engine inst
 1. Navigate to the main github page of the repository
 2. Above the file list, click **Use this Template** to [create a new github repository from this template](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template#creating-a-repository-from-a-template)
 3. Clone your new repository
-4. Customize the names of your services, replacing the patterns "service-" and "\_service" by "app-name-" and "\_app_name" respectively, replacing the matches found in ./docker-compose.yml and ./php/app.conf files.
+4. Customize the names of your services, replacing the patterns "service-" and "\_service" by "app-name-" and "\_app_name" respectively, replacing the matches found in ./docker-compose.yml and ./nginx/app.conf files.
 5. From your local copy and under root directory:
-   1. Create an .env file from .env.example file and set the environment varibles.
+   1. Create an .env file from .env.example file and set the environment variables.
    2. Run `docker-compose up -d --build`
-6. Download and extract WordPress. Under `src` directory:
+6. Download and extract WordPress. In the `src` directory:
    1. Run `wget https://wordpress.org/latest.tar.gz`
    2. Run `tar -xzvf latest.tar.gz`
    3. Run `rm latest.tar.gz`
-7. Setup WordPress from `wp-config.php`. Under `src/wordpress` directory:
-
-   1. Run `wp-config-sample.php wp-config.php`
+7. Perform initial WordPress setup from `wp-config.php`. In the `src/wordpress` directory:
+   1. Run `cp wp-config-sample.php wp-config.php`
    2. From the variables set in the `.env` file, replace or complete the section in the `wp-config.php` file with your corresponding values:
    <pre><code>
    // ** MySQL settings - You can get this info from your web host ** //
@@ -50,8 +49,9 @@ Docker Compose relies on Docker Engine, so make sure you have Docker Engine inst
    define( 'DB_HOST', 'localhost' );
    </code></pre>
 
-   3. Complete WordPress install process, from URL: 0.0.0.0:8000.
+8. Run `docker-compose up -d` to build the images and create its containers. Then, can check the containers status with `docker ps` command.
 
+9. Complete WordPress install process, from URL: 0.0.0.0:8000/wp-admin/install.php.
 <!--
  ### Executing program
 
